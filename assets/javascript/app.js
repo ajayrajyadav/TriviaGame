@@ -53,75 +53,100 @@ $(document).ready(function(){
             answerIndex: "Rejoins his academic decathlon team",
             imageSource: "q10" 
         },{
-            question:"",
-            answerChoices: ["", "", "", ""],
-            answerIndex: 0,
-            imageSource: "" 
+            question:"What suit is Pym’s daughter Van Dyne hinted to wear at the end of the film?",
+            answerChoices: ["Wasp", "Bee", "Yellowjacket", "Hornet"],
+            answerIndex: "Wasp",
+            imageSource: "q11" 
         },{
-            question:"",
-            answerChoices: ["", "", "", ""],
-            answerIndex: 0,
-            imageSource: "" 
+            question:"What is the name of the prison that Peter, Rocket, Gamora and Groot were detained to?",
+            answerChoices: ["Killer", "Death Prison", "Death Wish", "Kyln"],
+            answerIndex: "Kyln",
+            imageSource: "q13" 
         },{
-            question:"",
-            answerChoices: ["", "", "", ""],
-            answerIndex: 0,
-            imageSource: "" 
+            question:"Who sacrifices themselves to save the rest of the guardians from their spaceship crash?",
+            answerChoices: ["Rocket", "Groot", "Gamora", "Peter"],
+            answerIndex: "Groot",
+            imageSource: "q14" 
         },{
-            question:"",
-            answerChoices: ["", "", "", ""],
-            answerIndex: 0,
-            imageSource: "" 
+            question:"What do Rogers and Romanoff find at the location the flash drive sent them?",
+            answerChoices: ["Bucky's dead body", "Tony Stark locked up", "Zola's consciousness", "Files on Steve"],
+            answerIndex: "Zola's consciousness",
+            imageSource: "q15" 
         },{
-            question:"",
-            answerChoices: ["", "", "", ""],
-            answerIndex: 0,
-            imageSource: "" 
+            question:"How does Fury supposedly die in Captain America: The Winter Soldier?",
+            answerChoices: ["The Winter Soldier Assassinates him", "Poisoned", "Falls out of a helicopter", "Drowns"],
+            answerIndex: "The Winter Soldier Assassinates him",
+            imageSource: "q16" 
         },{
-            question:"",
-            answerChoices: ["", "", "", ""],
-            answerIndex: 0,
-            imageSource: "" 
+            question:"What is the alignment of the Nine Realms referred to as?",
+            answerChoices: ["The Alignment", "The Line", "The Rebirth", "The Convergence"],
+            answerIndex: "The Convergence",
+            imageSource: "q17" 
         },{
-            question:"",
-            answerChoices: ["", "", "", ""],
-            answerIndex: 0,
-            imageSource: "" 
+            question:"Who does Volstagg and Sif entrust the Aether to at the end of Thor: The Dark World?",
+            answerChoices: ["The Gifter", "The Collector", "The Antiquer", "The Man"],
+            answerIndex: "The Collector",
+            imageSource: "q18" 
         },{
-            question:"",
-            answerChoices: ["", "", "", ""],
-            answerIndex: 0,
-            imageSource: "" 
+            question:"What is the name of the boy who helps Tony repair his broken suit in Iron Man 3?",
+            answerChoices: ["Harry", "Jasper", "Harley", "Jake"],
+            answerIndex: "Harley",
+            imageSource: "q19" 
         },{
-            question:"",
-            answerChoices: ["", "", "", ""],
-            answerIndex: 0,
-            imageSource: "" 
+            question:"How does Tony manage to save all of the passengers from Air Force One after the plane is compromised?",
+            answerChoices: ["Getting them to join hands in the free fall", "With the help of the Avengers", "Landing the Plane", "Dropping them in a net"],
+            answerIndex: "Getting them to join hands in the free fall",
+            imageSource: "q20" 
         },{
-            question:"",
-            answerChoices: ["", "", "", ""],
-            answerIndex: 0,
-            imageSource: "" 
+            question:"Which of Yondu’s men turn on him after he hesitates on handing over his adopted son, Peter?",
+            answerChoices: ["Razorface", "Taserface", "Deathface", "Killerface"],
+            answerIndex: "Taserface",
+            imageSource: "q21" 
         },{
-            question:"",
-            answerChoices: ["", "", "", ""],
-            answerIndex: 0,
-            imageSource: "" 
+            question:"What is the name of Ego’s servant who has the ability to feel someone’s emotions by touching them?",
+            answerChoices: ["Marleen", "Juniper", "Fray", "Mantis"],
+            answerIndex: "Mantis",
+            imageSource: "q22" 
         },{
-            question:"",
-            answerChoices: ["", "", "", ""],
-            answerIndex: 0,
-            imageSource: "" 
+            question:"Which one of the dimensions does the Ancient One show Doctor Strange to practice his magic safely?",
+            answerChoices: ["The Mirror Dimension", "The Future Dimension", "The Reality Dimension", "The Illusion Dimension"],
+            answerIndex: "The Mirror Dimension",
+            imageSource: "q23" 
         },{
-            question:"",
-            answerChoices: ["", "", "", ""],
-            answerIndex: 0,
-            imageSource: "" 
+            question:"Which Sanctum is the last to be attacked in Doctor Strange?",
+            answerChoices: ["London", "New York", "Hong Kong", "Alaska"],
+            answerIndex: "Hong Kong",
+            imageSource: "q24" 
         },{
-            question:"",
-            answerChoices: ["", "", "", ""],
-            answerIndex: 0,
-            imageSource: "" 
+            question:"In X-Men: Days of Future Past, what year does Kitty send Wolverine’s consciousness back to?",
+            answerChoices: ["1953", "1973", "1960", "1980"],
+            answerIndex: "1973",
+            imageSource: "q25" 
+        },{
+            question:"Whose DNA are the mutant hunting robots known as “Sentinels” based off of?",
+            answerChoices: ["Charles", "Magneto", "Wolverine", "Mystique"],
+            answerIndex: "Mystique",
+            imageSource: "q26" 
+        },{
+            question:"Why does Wade Wilson initially leave his fiancé Vanessa?",
+            answerChoices: ["He's dying of cancer", "Found another woman", "Kidnapped", "Relocated for work"],
+            answerIndex: "He's dying of cancer",
+            imageSource: "q27" 
+        },{
+            question:"Who is Wade’s best friend?",
+            answerChoices: ["Musktrat", "Timone", "Weasel", "Beaver"],
+            answerIndex: "Weasel",
+            imageSource: "q28" 
+        },{
+            question:"Who is Erik Lehnsherr’s biological son?",
+            answerChoices: ["Magneto Jr", "Quicksilver", "Beast", "Death Metal"],
+            answerIndex: "Quicksilver",
+            imageSource: "q29" 
+        },{
+            question:"What is the name of the device that Xavier uses to locate other mutants?",
+            answerChoices: ["Cerebellum", "Brain Scan", "cerebella", "cerebro"],
+            answerIndex: "cerebro",
+            imageSource: "q30" 
         }],
     }
 });
