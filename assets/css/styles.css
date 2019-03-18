@@ -1,0 +1,42 @@
+body{
+    background: url("../images/Avengers.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: 'Marvel', sans-serif;
+    font-size: 20px;
+    
+}
+
+.btn-primary, .reset{
+    background-color: blue;
+    color: white;
+    font-size: 30px;
+    padding: 20px;
+    margin-top: 100px;
+}
+
+.btn-primary:hover, .reset:hover{
+	background-color: green;
+}
+
+.container{
+    background-color: bisque;
+	margin-top: 50px;
+	text-align: center;
+	height: 100%;
+	width: 700px;
+}
+
+h2, #message, #finalMessage{
+	font-family: Sigmar One;
+}
+
+@media screen and (max-width:640px){
+	.container{
+		width: 500px;
+		margin-top: 200px;
+		size: 200%;
+	}	
+}

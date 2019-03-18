@@ -2,7 +2,7 @@ $(document).ready(function(){
     //the game object
     //https://www.thequiz.com/marvel-movie-quiz-comic-book-fans/
     var triviaData ={
-        quiz: [{
+        questionBank: [{
             question:"Who kills Agent Phil Coulson in the movie The Avengers?",
             answerChoices: ["Loki", "Thor", "Nick", "Hulk"],
             answer: "Loki",
@@ -148,5 +148,49 @@ $(document).ready(function(){
             answerIndex: "cerebro",
             imageSource: "q30" 
         }],
+        currentQuestion: "",
+        currentAnswer: "",
+        quiz: [], //array of number that would create questions.
+        messages: {
+            correct: "That's correct", 
+            incorrect: "That is incorrect!",
+            outOfTime: "You ran out of time.",
+            quizCompleted: "Quiz is completed"
+        }
     }
+
+    $("#startBtn").on("click", function(){
+        buildQuestionPage();
+    });
+    //build questionpage
+    function buildQuestionPage(){
+        $("#startBtn").hide();//hide the button so we can show other things.
+        var divElement = $("#div");
+
+        // addIntoDiv($("<div>"), "currentQuestion", "this is the current Question")
+
+    }
+    //build answerPage
+
+    //build Scoreboard page
+
+    //create questions from the questionbank
+
+
+    //simple function to add/append div to an element
+
+    function addIntoDiv(divElement, attrName, textToAdd){
+        
+        $("#container").append(divElement);
+        divElement.attr("class", attrName);
+        divElement.html(textToAdd);
+    }
+    // function addIntoDiv(divElement, textToAppend, appendBool){
+    //     if(appendBool){
+    //       divElement.append(textToAppend);
+    //     }else{
+    //       divElement.html(textToAppend);
+    //     }
+    // }
+
 });
