@@ -151,6 +151,7 @@ $(document).ready(function () {
         currentQuestion: "",
         currentAnswer: "",
         quiz: [], //array of number that would create questions.
+        quizSize: 10,
         messages: {
             correct: "That's correct",
             incorrect: "That is incorrect!",
@@ -160,8 +161,19 @@ $(document).ready(function () {
     }
 
     $("#startBtn").on("click", function () {
-        // buildQuestionPage();
+        buildQuestionPage();
+        createQuiz();
     });
+
+    //start serving questions on the question page
+    //Pre-condition: question page is built right before this function is called
+    function newQuestion(){
+       //setup a new question and the multiple choice
+       $("#currentQuestion").html("")
+
+
+    }
+
     //build questionpage
     function buildQuestionPage() {
         $("#startBtn").hide();//hide the button so we can show other things.
@@ -184,21 +196,28 @@ $(document).ready(function () {
         addIntoDiv($("div"), "startOverBtn", "");
     }
     //create questions from the questionbank
+    function createQuiz(){
+        var exists = [];
+        var randomNumber;
+        for (let i = 0; i < triviaData.quizSize; i++) {
+            do{
+                randomNumber = Math.floor(Math.random() * triviaData.questionBank.length);
+            }while(exists[randomNumber])
+            exists[randomNumber] = true;
+            triviaData.quiz.push(randomNumber);
+        }
+        // for (let j = 0; j < triviaData.quizSize; j++) {
+            
+        //     console.log(triviaData.quiz[j]);
+            
+        // }
+    }
 
 
     //simple function to add/append div to an element
-
     function addIntoDiv(divElement, attrName, textToAdd) {
         divElement.attr("id", attrName);
         divElement.text(textToAdd)
         $("#container").append(divElement);
     }
-    // function addIntoDiv(divElement, textToAppend, appendBool){
-    //     if(appendBool){
-    //       divElement.append(textToAppend);
-    //     }else{
-    //       divElement.html(textToAppend);
-    //     }
-    // }
-
 });
