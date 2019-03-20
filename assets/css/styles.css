@@ -37,8 +37,14 @@ body{
 	width: 700px;
 }
 
+.multipleChoice:hover{
+	background-color: cornflowerblue ;
+	color: white;
+	padding: 10px;
+}
+
 h2, #message, #finalMessage{
-	font-family: Sigmar One;
+	font-family: 'Marvel', sans-serif;
 }
 
 @media screen and (max-width:640px){

@@ -148,10 +148,14 @@ $(document).ready(function () {
             answerIndex: "cerebro",
             imageSource: "q30"
         }],
-        currentQuestion: "",
+        currentQuestionNumber: 0,
         currentAnswer: "",
         quiz: [], //array of number that would create questions.
         quizSize: 10,
+        allotedTime: 15,//you have 15 seconds to answer
+        hasUserAnswered: false,
+        theAnsUserSelected: "",
+        timer: 0,
         messages: {
             correct: "That's correct",
             incorrect: "That is incorrect!",
@@ -163,37 +167,76 @@ $(document).ready(function () {
     $("#startBtn").on("click", function () {
         buildQuestionPage();
         createQuiz();
+        newQuestion();
+        //createQuiz();
     });
 
     //start serving questions on the question page
     //Pre-condition: question page is built right before this function is called
     function newQuestion(){
        //setup a new question and the multiple choice
-       $("#currentQuestion").html("")
+       //retrive the question from the questionbank
+        $("#questionNumber").html("Question #"+(triviaData.currentQuestionNumber)+"/"+triviaData.quiz.length);
+        let questionTextFromArray = triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].question;
+        console.log(questionTextFromArray)
+        $("#questionText").html("<h2>"+questionTextFromArray+"</h2>");
+        for(let i = 0; i < 4; i++){
+            let choices = $('<div>');
+            let answerString = triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].answerChoices[i];
+            choices.text(answerString);
+            choices.attr({"data-index": i });
+            choices.addClass("multipleChoice");
+            $("#multiple-answers").append(choices);
+        }
+        countDown();
+        $(".multipleChoice").on("click", function(){
+            triviaData.theAnsUserSelected = triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].answerChoices[$(this).data("index")] ;
+            console.log(triviaData.theAnsUserSelected);
+        });
 
+        //triviaData.currentQuestionNumber++;
+    }
 
+    //next two function is where all the timing magic happens
+    function countDown(){
+        triviaData.allotedTime = 15;//you have 15 seconds to answer
+        $("#timeLeft").html("<h3>Time remaining: "+ triviaData.allotedTime + " Seconds</h3>");
+        triviaData.hasUserAnswered = true;
+        triviaData.timer = setInterval(showCountDown, 1000);
+    }
+
+    function showCountDown(){
+        triviaData.allotedTime--;
+        $("#timeLeft").html("<h3>Time remaining: "+ triviaData.allotedTime + " Seconds</h3>");
+        if(triviaData.allotedTime < 1){
+            clearInterval(triviaData.timer);
+            triviaData.hasUserAnswered = false;
+            //buildAnswerPage();
+        }
     }
 
     //build questionpage
     function buildQuestionPage() {
         $("#startBtn").hide();//hide the button so we can show other things.
-        addIntoDiv($("div"), "timeLeft", "Time Left");
-        addIntoDiv($("div"), "currentQuestion", "this is the current Question");
-        addIntoDiv($("div"), "multiple-answers", "");
+        addIntoDiv($("<div>"), true, "timeLeft", true, "Time Left", true);
+        addIntoDiv($("<div>"), true, "questionNumber", true, "this is the current Question", true);
+        addIntoDiv($("<div>"), true, "questionText", true, "this is the current Question text", true);
+        addIntoDiv($("<div>"), true, "multiple-answers", true, "", true);
     }
     //build answerPage
     function buildAnswerPage(){
-        addIntoDiv($("div"), "message", "");
-        addIntoDiv($("div"), "correctAnswer", "");
-        addIntoDiv($("div"), "gif", "");
+
+        addIntoDiv($("<div>"), true, "message", ture, "", true);
+        addIntoDiv($("<div>"), true, "correctAnswer", true, "", true);
+        addIntoDiv($("<div>"), true, "gif", true, "", true);
     }
     //build Scoreboard page
     function buildScoreBoardPage(){
-        addIntoDiv($("div"), "results", "");
-        addIntoDiv($("div"), "numberOfCorrectAnswers", "");
-        addIntoDiv($("div"), "numberOfWrongAnswers", "");
-        addIntoDiv($("div"), "numberOfUnanswered", "");
-        addIntoDiv($("div"), "startOverBtn", "");
+        addIntoDiv($("<div>"), true, "results", true, "", true );
+        addIntoDiv($("<div>"), true, "numberOfCorrectAnswers", true, "", true);
+        addIntoDiv($("<div>"), true, "numberOfWrongAnswers", true, "", true);
+        addIntoDiv($("<div>"), true, "numberOfUnanswered", true,  "", true);
+        addIntoDiv($("<div>"), true, "startOverBtn", true, "", true);
     }
     //create questions from the questionbank
     function createQuiz(){
@@ -206,18 +249,22 @@ $(document).ready(function () {
             exists[randomNumber] = true;
             triviaData.quiz.push(randomNumber);
         }
-        // for (let j = 0; j < triviaData.quizSize; j++) {
-            
-        //     console.log(triviaData.quiz[j]);
-            
+        // for (let j = 0; j < triviaData.quizSize; j++) {     
+        //     console.log(triviaData.quiz[j]); 
         // }
     }
 
 
     //simple function to add/append div to an element
-    function addIntoDiv(divElement, attrName, textToAdd) {
-        divElement.attr("id", attrName);
-        divElement.text(textToAdd)
-        $("#container").append(divElement);
+    function addIntoDiv(divElement, toAppend, attrName, addAttr, textToAdd, addText) {
+        if(addAttr){
+            divElement.attr("id", attrName);
+        }
+        if(addText){
+            divElement.text(textToAdd)
+        }
+        if(toAppend){
+            $(".container").append(divElement);
+        }
     }
 });
