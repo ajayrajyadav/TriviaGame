@@ -168,19 +168,40 @@ $(document).ready(function () {
         }
     }
 
+    function resetGame() {
+        triviaData.currentQuestionNumber = 0;
+        triviaData.currentAnswer = "";
+        triviaData.quiz = [], //array of number that would create questions.
+            triviaData.quizSize = 2,
+            // triviaData.allotedTime = 15,//you have 15 seconds to answer
+            triviaData.hasUserAnswered = false;
+        triviaData.theAnsUserSelected = "";
+        triviaData.numberOfCorrectAnswers = 0;
+        triviaData.theCorrectAnswer = "";
+        triviaData.numberOfIncorrectAnswers = 0;
+        triviaData.numberOfUnanswered = 0;
+        triviaData.timer = 0;
+    }
+
     $("#startBtn").on("click", function () {
+        $("#restartBtn").hide();
         startGame();
     });
-
     $("#restartBtn").on("click", function () {
-        console.log("restart button clicked");
         startGame();
     });
- 
 
 
+    // function restartTheGame(){
 
-    function startGame(){
+    //     $("#restartBtn").on("click", function () {
+    //         startGame();
+    //     });
+    // }
+
+    function startGame() {
+        resetGame();
+        teadDownScoreBoardPage();
         buildQuestionPage();
         createQuiz();
         questionPage();
@@ -188,27 +209,27 @@ $(document).ready(function () {
 
     //start serving questions on the question page
     //Pre-condition: question page is built right before this function is called
-    function questionPage(){
-        teadDownAnswerPage();
+    function questionPage() {
+        tearDownAnswerPage();
         // buildQuestionPage();
-       //setup a new question and the multiple choice
-       //retrive the question from the questionbank
-        $("#questionNumber").html("Question #"+(triviaData.currentQuestionNumber)+"/"+triviaData.quiz.length);
+        //setup a new question and the multiple choice
+        //retrive the question from the questionbank
+        $("#questionNumber").html("Question #" + (triviaData.currentQuestionNumber) + "/" + triviaData.quiz.length);
         let questionTextFromArray = triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].question;
         triviaData.theCorrectAnswer = triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].answerIndex;
         console.log(questionTextFromArray)
-        $("#questionText").html("<h2>"+questionTextFromArray+"</h2>");
-        for(let i = 0; i < 4; i++){
+        $("#questionText").html("<h2>" + questionTextFromArray + "</h2>");
+        for (let i = 0; i < 4; i++) {
             let choices = $('<div>');
             let answerString = triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].answerChoices[i];
             choices.text(answerString);
-            choices.attr({"data-index": i });
+            choices.attr({ "data-index": i });
             choices.addClass("multipleChoice");
             $("#multiple-answers").append(choices);
         }
         countDown();
-        $(".multipleChoice").on("click", function(){
-            triviaData.theAnsUserSelected = triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].answerChoices[$(this).data("index")] ;
+        $(".multipleChoice").on("click", function () {
+            triviaData.theAnsUserSelected = triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].answerChoices[$(this).data("index")];
             console.log(triviaData.theAnsUserSelected);
             clearInterval(triviaData.timer);
             answerPage();
@@ -218,114 +239,122 @@ $(document).ready(function () {
     }
 
     //next two function is where all the timing magic happens
-    function countDown(){
+    function countDown() {
         triviaData.allotedTime = 15;//you have 15 seconds to answer
-        $("#timeLeft").html("<h3>Time remaining: "+ triviaData.allotedTime + " Seconds</h3>");
+        $("#timeLeft").html("<h3>Time remaining: " + triviaData.allotedTime + " Seconds</h3>");
         triviaData.hasUserAnswered = true;
         triviaData.timer = setInterval(showCountDown, 1000);
     }
 
-    function showCountDown(){
+    function showCountDown() {
         triviaData.allotedTime--;
-        $("#timeLeft").html("<h3>Time remaining: "+ triviaData.allotedTime + " Seconds</h3>");
-        if(triviaData.allotedTime < 1){
+        $("#timeLeft").html("<h3>Time remaining: " + triviaData.allotedTime + " Seconds</h3>");
+        if (triviaData.allotedTime < 1) {
             clearInterval(triviaData.timer);
             triviaData.hasUserAnswered = false;
             answerPage();
         }
     }
 
-    function answerPage(){
+    function answerPage() {
         tearDownQuestionPage();
         buildAnswerPage();
-        if(triviaData.hasUserAnswered)
-        {
+        if (triviaData.hasUserAnswered) {
             //the question was answered
-            if(triviaData.theAnsUserSelected === triviaData.theCorrectAnswer){
+            if (triviaData.theAnsUserSelected === triviaData.theCorrectAnswer) {
                 //it was correct answer
                 triviaData.numberOfCorrectAnswers++;
                 $("#message").html(triviaData.messages.correct);
-            }else{
+            } else {
                 //it was not correct answer
                 triviaData.numberOfIncorrectAnswers++;
                 $("#message").html(triviaData.messages.incorrect);
-                $("#correctAnswer").html("The correct answer is "+ triviaData.theCorrectAnswer);
+                $("#correctAnswer").html("The correct answer is " + triviaData.theCorrectAnswer);
             }
-        }else{
+        } else {
             //question was not answered at all
             triviaData.numberOfUnanswered++;
             $("#message").html(triviaData.messages.outOfTime);
-            $("#correctAnswer").html("The correct answer is "+ triviaData.theCorrectAnswer);
+            $("#correctAnswer").html("The correct answer is " + triviaData.theCorrectAnswer);
             triviaData.hasUserAnswered = true;
         }
 
-        if(triviaData.currentQuestionNumber == triviaData.quiz.length-1){
+        if (triviaData.currentQuestionNumber == triviaData.quiz.length - 1) {
             //we are done with our quiz show the scorebaord
             setTimeout(scoreBoardPage, 3000);
         }
-        else{
+        else {
             triviaData.currentQuestionNumber++;
             setTimeout(questionPage, 3000);
         }
     }
 
-    function scoreBoardPage(){
-        teadDownAnswerPage();
+    function scoreBoardPage() {
+        tearDownAnswerPage();
         buildScoreBoardPage();
         $("#results").html(triviaData.messages.quizCompleted);
         $("#numberOfCorrectAnswers").html("You Answered " + triviaData.numberOfCorrectAnswers + " answers correctly!")
         $("#numberOfWrongAnswers").html("You answered " + triviaData.numberOfIncorrectAnswers + " answers incorrectly.")
-        $("#numberOfUnanswered").html("You unanswered "+ triviaData.numberOfUnanswered + " quesions.")
+        $("#numberOfUnanswered").html("You unanswered " + triviaData.numberOfUnanswered + " quesions.")
         $("#restartBtn").addClass("reset");
         $("#restartBtn").show();
         $("#restartBtn").html("Start Over?")
+        // restartTheGame();
     }
 
     //build questionpage
     function buildQuestionPage() {
         $("#startBtn").hide();//hide the button so we can show other things.
-        addIntoDiv($("<div>"), true, "timeLeft", true, "Time Left", true);
-        addIntoDiv($("<div>"), true, "questionNumber", true, "this is the current Question", true);
-        addIntoDiv($("<div>"), true, "questionText", true, "this is the current Question text", true);
+        addIntoDiv($("<div>"), true, "timeLeft", true, "", true);
+        addIntoDiv($("<div>"), true, "questionNumber", true, "", true);
+        addIntoDiv($("<div>"), true, "questionText", true, "", true);
         addIntoDiv($("<div>"), true, "multiple-answers", true, "", true);
     }
     //teaddown Question page for the next page to populate
-    function tearDownQuestionPage(){
+    function tearDownQuestionPage() {
         $("#questionNumber").empty();
         $("#questionText").empty();
         $(".multipleChoice").empty();
     }
     //build answerPage
-    function buildAnswerPage(){
+    function buildAnswerPage() {
         addIntoDiv($("<div>"), true, "message", true, "", true);
         addIntoDiv($("<div>"), true, "correctAnswer", true, "", true);
         addIntoDiv($("<div>"), true, "gif", true, "", true);
     }
     //teaddown Answer page for the next page to populate
-    function teadDownAnswerPage(){
+    function tearDownAnswerPage() {
         $("#message").empty();
         $("#correctAnswer").empty();
         $("#gif").empty();
     }
     //build Scoreboard page
-    function buildScoreBoardPage(){
-        addIntoDiv($("<div>"), true, "results", true, "", true );
+    function buildScoreBoardPage() {
+        addIntoDiv($("<div>"), true, "results", true, "", true);
         addIntoDiv($("<div>"), true, "numberOfCorrectAnswers", true, "", true);
         addIntoDiv($("<div>"), true, "numberOfWrongAnswers", true, "", true);
-        addIntoDiv($("<div>"), true, "numberOfUnanswered", true,  "", true);
-        addIntoDiv($("<button>"), true, "restartBtn", true, "", true);
+        addIntoDiv($("<div>"), true, "numberOfUnanswered", true, "", true);
+        addIntoDiv($("<div>"), true, "restartBtn", true, "", true);
     }
-    
-    function teadDownScoreBoardPage(){}
+
+    function teadDownScoreBoardPage() {
+        $("#results").empty();
+        $("#numberOfCorrectAnswers").empty();
+        $("#numberOfWrongAnswers").empty();
+        $("#numberOfUnanswered").empty();
+        $("#restartBtn").empty();
+        $("#restartBtn").hide();
+
+    }
 
     //create questions from the questionbank
-    function createQuiz(){
+    function createQuiz() {
         var exists = [];
         var randomNumber;
         for (let i = 0; i < triviaData.quizSize; i++) {
-            do{
+            do {
                 randomNumber = Math.floor(Math.random() * triviaData.questionBank.length);
-            }while(exists[randomNumber])
+            } while (exists[randomNumber])
             exists[randomNumber] = true;
             triviaData.quiz.push(randomNumber);
         }
@@ -337,13 +366,13 @@ $(document).ready(function () {
 
     //simple function to add/append div to an element
     function addIntoDiv(divElement, toAppend, attrName, addAttr, textToAdd, addText) {
-        if(addAttr){
+        if (addAttr) {
             divElement.attr("id", attrName);
         }
-        if(addText){
+        if (addText) {
             divElement.text(textToAdd)
         }
-        if(toAppend){
+        if (toAppend) {
             $(".container").append(divElement);
         }
     }
