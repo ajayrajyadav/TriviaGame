@@ -191,14 +191,6 @@ $(document).ready(function () {
         startGame();
     });
 
-
-    // function restartTheGame(){
-
-    //     $("#restartBtn").on("click", function () {
-    //         startGame();
-    //     });
-    // }
-
     function startGame() {
         resetGame();
         teadDownScoreBoardPage();
@@ -211,13 +203,13 @@ $(document).ready(function () {
     //Pre-condition: question page is built right before this function is called
     function questionPage() {
         tearDownAnswerPage();
-        // buildQuestionPage();
-        //setup a new question and the multiple choice
-        //retrive the question from the questionbank
         $("#questionNumber").html("Question #" + (triviaData.currentQuestionNumber) + "/" + triviaData.quiz.length);
         let questionTextFromArray = triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].question;
         triviaData.theCorrectAnswer = triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].answerIndex;
-        console.log(questionTextFromArray)
+        let imageSourceString = "../assets/images/" + triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].imageSource + ".jpg";
+        console.log(imageSourceString);
+        $("#image").html('<img src = "./assets/images/'+ triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].imageSource +'.jpg" width = "400px">');
+  
         $("#questionText").html("<h2>" + questionTextFromArray + "</h2>");
         for (let i = 0; i < 4; i++) {
             let choices = $('<div>');
@@ -230,7 +222,6 @@ $(document).ready(function () {
         countDown();
         $(".multipleChoice").on("click", function () {
             triviaData.theAnsUserSelected = triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].answerChoices[$(this).data("index")];
-            console.log(triviaData.theAnsUserSelected);
             clearInterval(triviaData.timer);
             answerPage();
         });
@@ -269,13 +260,13 @@ $(document).ready(function () {
                 //it was not correct answer
                 triviaData.numberOfIncorrectAnswers++;
                 $("#message").html(triviaData.messages.incorrect);
-                $("#correctAnswer").html("The correct answer is " + triviaData.theCorrectAnswer);
+                $("#correctAnswer").html("The correct answer is \"" + triviaData.theCorrectAnswer + "\"");
             }
         } else {
             //question was not answered at all
             triviaData.numberOfUnanswered++;
             $("#message").html(triviaData.messages.outOfTime);
-            $("#correctAnswer").html("The correct answer is " + triviaData.theCorrectAnswer);
+            $("#correctAnswer").html("The correct answer is \"" + triviaData.theCorrectAnswer + "\"");
             triviaData.hasUserAnswered = true;
         }
 
@@ -293,9 +284,15 @@ $(document).ready(function () {
         tearDownAnswerPage();
         buildScoreBoardPage();
         $("#results").html(triviaData.messages.quizCompleted);
-        $("#numberOfCorrectAnswers").html("You Answered " + triviaData.numberOfCorrectAnswers + " answers correctly!")
-        $("#numberOfWrongAnswers").html("You answered " + triviaData.numberOfIncorrectAnswers + " answers incorrectly.")
-        $("#numberOfUnanswered").html("You unanswered " + triviaData.numberOfUnanswered + " quesions.")
+        if(triviaData.numberOfCorrectAnswers !== 0){
+            $("#numberOfCorrectAnswers").html("You answered "+ triviaData.numberOfCorrectAnswers + ((triviaData.numberOfCorrectAnswers===1) ? (" question ") : (" questions ")) +"correctly!");
+        }
+        if(triviaData.numberOfIncorrectAnswers !== 0){
+            $("#numberOfWrongAnswers").html("You answered "+ triviaData.numberOfIncorrectAnswers + ((triviaData.numberOfIncorrectAnswers===1) ? (" question ") : (" questions ")) +"incorrectly");
+        }
+        if(triviaData.numberOfUnanswered !== 0){
+            $("#numberOfUnanswered").html("You unanswered "+ triviaData.numberOfUnanswered + ((triviaData.numberOfUnanswered===1) ? (" question") : (" questions")));
+        }
         $("#restartBtn").addClass("reset");
         $("#restartBtn").show();
         $("#restartBtn").html("Start Over?")
@@ -306,6 +303,7 @@ $(document).ready(function () {
     function buildQuestionPage() {
         $("#startBtn").hide();//hide the button so we can show other things.
         addIntoDiv($("<div>"), true, "timeLeft", true, "", true);
+        addIntoDiv($("<div>"), true, "image", true, "", true);
         addIntoDiv($("<div>"), true, "questionNumber", true, "", true);
         addIntoDiv($("<div>"), true, "questionText", true, "", true);
         addIntoDiv($("<div>"), true, "multiple-answers", true, "", true);
@@ -313,6 +311,7 @@ $(document).ready(function () {
     //teaddown Question page for the next page to populate
     function tearDownQuestionPage() {
         $("#questionNumber").empty();
+        $("#image").empty();
         $("#questionText").empty();
         $(".multipleChoice").empty();
     }
@@ -327,6 +326,7 @@ $(document).ready(function () {
         $("#message").empty();
         $("#correctAnswer").empty();
         $("#gif").empty();
+        $("#timeLeft").empty();
     }
     //build Scoreboard page
     function buildScoreBoardPage() {

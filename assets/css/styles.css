@@ -4,7 +4,7 @@ body{
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    font-family: 'Marvel', sans-serif;
+    font-family: 'Permanent Marker', cursive;
     font-size: 20px;
     
 }
@@ -22,7 +22,7 @@ body{
 }
 
 .container{
-    background-color: bisque;
+    background-color: dodgerblue;
 	margin-top: 50px;
 	text-align: center;
 	height: 100%;
@@ -30,13 +30,17 @@ body{
 }
 
 .multipleChoice:hover{
-	background-color: cornflowerblue ;
+	background-color: forestgreen ;
 	color: white;
 	padding: 10px;
 }
 
 h2, #message, #finalMessage{
-	font-family: 'Marvel', sans-serif;
+	font-family: 'Boogaloo', cursive;
+}
+
+#image{
+	margin: 30px;
 }
 
 @media screen and (max-width:640px){
@@ -46,3 +50,9 @@ h2, #message, #finalMessage{
 		size: 200%;
 	}	
 }
+
+/* font-family: 'Permanent Marker', cursive;
+font-family: 'Bangers', cursive;
+font-family: 'Audiowide', cursive;
+font-family: 'Boogaloo', cursive;
+font-family: 'Covered By Your Grace', cursive; */
