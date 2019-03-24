@@ -30,12 +30,12 @@ $(document).ready(function () {
         }, {
             question: "What is the name of the agreement the United Nations forced the Avengers to sign?",
             answerChoices: ["Sokovia Accords", "Sokovia Agreement", "Sokovia Law", "Sokovia Document"],
-            answerIndex: 0,
+            answerIndex: "Sokovia Accords",
             imageSource: "q6"
         }, {
             question: "Who was responsible for the experiments that gave Wanda and Pietro their superhuman abilities?",
             answerChoices: ["Vision", "Strucker", "Steve Rogers", "Nick Fury"],
-            answerIndex: 0,
+            answerIndex: "Strucker",
             imageSource: "q7"
         }, {
             question: "Which of the Infinity Stones is embedded in Vision’s forehead?",
@@ -151,7 +151,7 @@ $(document).ready(function () {
         currentQuestionNumber: 0,
         currentAnswer: "",
         quiz: [], //array of number that would create questions.
-        quizSize: 2,
+        quizSize: 10,
         allotedTime: 15,//you have 15 seconds to answer
         hasUserAnswered: false,
         theAnsUserSelected: "",
@@ -172,9 +172,8 @@ $(document).ready(function () {
         triviaData.currentQuestionNumber = 0;
         triviaData.currentAnswer = "";
         triviaData.quiz = [], //array of number that would create questions.
-            triviaData.quizSize = 2,
-            // triviaData.allotedTime = 15,//you have 15 seconds to answer
-            triviaData.hasUserAnswered = false;
+        triviaData.quizSize = 10,
+        triviaData.hasUserAnswered = false;
         triviaData.theAnsUserSelected = "";
         triviaData.numberOfCorrectAnswers = 0;
         triviaData.theCorrectAnswer = "";
@@ -203,17 +202,18 @@ $(document).ready(function () {
     //Pre-condition: question page is built right before this function is called
     function questionPage() {
         tearDownAnswerPage();
+        var placeToFindQuestions = triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]];
         $("#questionNumber").html("Question #" + (triviaData.currentQuestionNumber) + "/" + triviaData.quiz.length);
-        let questionTextFromArray = triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].question;
-        triviaData.theCorrectAnswer = triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].answerIndex;
-        let imageSourceString = "../assets/images/" + triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].imageSource + ".jpg";
+        let questionTextFromArray = placeToFindQuestions.question;
+        triviaData.theCorrectAnswer = placeToFindQuestions.answerIndex;
+        let imageSourceString = "../assets/images/" + placeToFindQuestions.imageSource + ".jpg";
         console.log(imageSourceString);
-        $("#image").html('<img src = "./assets/images/'+ triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].imageSource +'.jpg" width = "400px">');
-  
+        $("#image").html('<img src = "./assets/images/' + placeToFindQuestions.imageSource + '.jpg" width = "400px">');
+
         $("#questionText").html("<h2>" + questionTextFromArray + "</h2>");
         for (let i = 0; i < 4; i++) {
             let choices = $('<div>');
-            let answerString = triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].answerChoices[i];
+            let answerString = placeToFindQuestions.answerChoices[i];
             choices.text(answerString);
             choices.attr({ "data-index": i });
             choices.addClass("multipleChoice");
@@ -221,7 +221,7 @@ $(document).ready(function () {
         }
         countDown();
         $(".multipleChoice").on("click", function () {
-            triviaData.theAnsUserSelected = triviaData.questionBank[triviaData.quiz[triviaData.currentQuestionNumber]].answerChoices[$(this).data("index")];
+            triviaData.theAnsUserSelected = placeToFindQuestions.answerChoices[$(this).data("index")];
             clearInterval(triviaData.timer);
             answerPage();
         });
@@ -280,18 +280,19 @@ $(document).ready(function () {
         }
     }
 
+    //display scoreboard page
     function scoreBoardPage() {
         tearDownAnswerPage();
         buildScoreBoardPage();
         $("#results").html(triviaData.messages.quizCompleted);
-        if(triviaData.numberOfCorrectAnswers !== 0){
-            $("#numberOfCorrectAnswers").html("You answered "+ triviaData.numberOfCorrectAnswers + ((triviaData.numberOfCorrectAnswers===1) ? (" question ") : (" questions ")) +"correctly!");
+        if (triviaData.numberOfCorrectAnswers !== 0) {
+            $("#numberOfCorrectAnswers").html("You answered " + triviaData.numberOfCorrectAnswers + ((triviaData.numberOfCorrectAnswers === 1) ? (" question ") : (" questions ")) + "correctly!");
         }
-        if(triviaData.numberOfIncorrectAnswers !== 0){
-            $("#numberOfWrongAnswers").html("You answered "+ triviaData.numberOfIncorrectAnswers + ((triviaData.numberOfIncorrectAnswers===1) ? (" question ") : (" questions ")) +"incorrectly");
+        if (triviaData.numberOfIncorrectAnswers !== 0) {
+            $("#numberOfWrongAnswers").html("You answered " + triviaData.numberOfIncorrectAnswers + ((triviaData.numberOfIncorrectAnswers === 1) ? (" question ") : (" questions ")) + "incorrectly");
         }
-        if(triviaData.numberOfUnanswered !== 0){
-            $("#numberOfUnanswered").html("You unanswered "+ triviaData.numberOfUnanswered + ((triviaData.numberOfUnanswered===1) ? (" question") : (" questions")));
+        if (triviaData.numberOfUnanswered !== 0) {
+            $("#numberOfUnanswered").html("You unanswered " + triviaData.numberOfUnanswered + ((triviaData.numberOfUnanswered === 1) ? (" question") : (" questions")));
         }
         $("#restartBtn").addClass("reset");
         $("#restartBtn").show();
@@ -358,11 +359,7 @@ $(document).ready(function () {
             exists[randomNumber] = true;
             triviaData.quiz.push(randomNumber);
         }
-        // for (let j = 0; j < triviaData.quizSize; j++) {     
-        //     console.log(triviaData.quiz[j]); 
-        // }
     }
-
 
     //simple function to add/append div to an element
     function addIntoDiv(divElement, toAppend, attrName, addAttr, textToAdd, addText) {
