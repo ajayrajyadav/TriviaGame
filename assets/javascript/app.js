@@ -1,6 +1,5 @@
 $(document).ready(function () {
     //the game object
-    //https://www.thequiz.com/marvel-movie-quiz-comic-book-fans/
     var triviaData = {
         questionBank: [{
             question: "Who kills Agent Phil Coulson in the movie The Avengers?",
